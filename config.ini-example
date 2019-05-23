@@ -1,0 +1,18 @@
+# list of the environments, between parenthesis, with double quotes, separated by spaces
+environments=( "production" "testing" )
+
+# your domain
+domain=example.com
+
+# one git_branch_* per environment
+git_branch_production=master
+git_branch_testing=testing
+
+# the remote git site
+git_site=gitlab.com
+
+# your remote site username
+git_user=myusername
+
+# your remote site repository
+git_repo=example.com-web

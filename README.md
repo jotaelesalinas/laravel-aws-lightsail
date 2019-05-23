@@ -1,5 +1,7 @@
 # Laravel in AWS Lightsail with testing, production and no downtime
 
+**Important**: This is work in progress.
+
 What you need:
 
 1. A Laravel application in a git reporitory
@@ -175,3 +177,4 @@ You should also familiarize yourself with this file. If something goes wrong it 
 - [ ] Slack commands, e.g. for promoting, for rolling back
 - [ ] Add an option in `config.ini` to enable maintenance mode in one environment. This way, the admins check that everything is ok while the users see the maintenance message.
 - [ ] Add an option to tell how many older instances are kept
+- [ ] Add https://letsencrypt.org/

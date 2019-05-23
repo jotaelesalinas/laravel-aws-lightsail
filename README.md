@@ -74,13 +74,13 @@ sudo apt install git
 Now, clone this repo:
 
 ```bash
-git clone ... lightsail-laravel-init
+git clone https://github.com/jotaelesalinas/laravel-aws-lightsail.git
 ```
 
-Move to lightsail-laravel-init:
+Change to laravel-aws-lightsail:
 
 ```bash
-cd lightsail-laravel-init
+cd laravel-aws-lightsail
 ```
 
 The first thing that you will have to do is copy `config.ini-example` as `config.ini`:
@@ -89,7 +89,7 @@ The first thing that you will have to do is copy `config.ini-example` as `config
 cp config.ini-example config.ini
 ```
 
-Open `config.ini` in your favorite cli editor -if there is such a thing- and enter the data ccording to your needs:
+Open `config.ini` in your favorite cli editor -if there is such a thing- and enter the data according to your needs:
 
 ```bash
 nano config.ini
@@ -99,6 +99,7 @@ Default contents are:
 
 ```
 # list of the environments, between parenthesis, with double quotes, separated by spaces
+# the first one will be marked as default in the nginx configuration
 environments=( "production" "testing" )
 
 # your domain
@@ -165,10 +166,12 @@ You should also familiarize yourself with this file. If something goes wrong it 
 
 ## To do
 
-[ ] Create a hook in gitlab/github/etc that calls _somehow_ `update.sh <environment>` when the corresponding branches are updated.
-[ ] Add some screenshots to the tutorial
-[ ] Create a command that "promotes" (that is, merges) testing into master.
-[ ] Create `rollback.sh`
-[ ] Slack notifications
-[ ] Slack commands, e.g. for promoting, for rolling back
-[ ] Add an option in `config.ini` to enable maintenance mode in one environment. This way, the admins check that everything is ok while the users see the maintenance message.
+- [ ] Delete failed installations, rolling back migrations if needed
+- [ ] Create `rollback.sh`
+- [ ] Create a hook in gitlab/github/etc that calls _somehow_ `update.sh <environment>` when the corresponding branches are updated.
+- [ ] Add some screenshots to the tutorial
+- [ ] Create a command that "promotes" (that is, merges) testing into master.
+- [ ] Slack notifications
+- [ ] Slack commands, e.g. for promoting, for rolling back
+- [ ] Add an option in `config.ini` to enable maintenance mode in one environment. This way, the admins check that everything is ok while the users see the maintenance message.
+- [ ] Add an option to tell how many older instances are kept

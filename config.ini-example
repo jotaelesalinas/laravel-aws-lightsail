@@ -1,4 +1,5 @@
 # list of the environments, between parenthesis, with double quotes, separated by spaces
+# the first one will be marked as default in the nginx configuration
 environments=( "production" "testing" )
 
 # your domain

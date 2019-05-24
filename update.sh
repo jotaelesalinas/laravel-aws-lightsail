@@ -20,28 +20,30 @@ ERRCODE_RENAME_REPO=8
 
 ERRCODE_COMPOSER=9
 ERRCODE_YARN=10
+ERRCODE_NPM_PROD=11
 
-ERRCODE_COPY_ENV=11
-ERRCODE_DELETE_STORAGE=12
-ERRCODE_LINK_STORAGE=13
-ERRCODE_LINK_PUBLIC_STORAGE=14
+ERRCODE_COPY_ENV=12
+ERRCODE_DELETE_STORAGE=13
+ERRCODE_LINK_STORAGE=14
+ERRCODE_LINK_PUBLIC_STORAGE=15
 
-ERRCODE_CACHE_CONFIG=15
-ERRCODE_CACHE_ROUTES=16
-ERRCODE_MIGRATE=17
+ERRCODE_CACHE_CONFIG=16
+ERRCODE_CACHE_ROUTES=17
 
-ERRCODE_CHOWN_REPO=18
-ERRCODE_CHMOD_FILES=19
-ERRCODE_CHMOD_DIRS=20
-ERRCODE_CHMOD_BOOTSTRAP_CACHE=21
+ERRCODE_MIGRATE=50
 
-ERRCODE_NGINX_UNLINK=22
-ERRCODE_NGINX_RELINK=23
-ERRCODE_NGINX_CHOWN=24
+ERRCODE_CHOWN_REPO=51
+ERRCODE_CHMOD_FILES=52
+ERRCODE_CHMOD_DIRS=53
+ERRCODE_CHMOD_BOOTSTRAP_CACHE=54
 
-ERRCODE_RESTART_NGINX=25
-ERRCODE_RESTART_PHP=26
-ERRCODE_RELOAD_PHP=27
+ERRCODE_NGINX_UNLINK=55
+ERRCODE_NGINX_RELINK=56
+ERRCODE_NGINX_CHOWN=57
+
+ERRCODE_RESTART_NGINX=58
+ERRCODE_RESTART_PHP=59
+ERRCODE_RELOAD_PHP=60
 
 ############################################################################
 # functions
@@ -210,6 +212,10 @@ log "Running yarn..."
 yarn install
 check_return_code $? "Error while running 'yarn install'" $ERRCODE_YARN
 
+log "Running npm prod..."
+npm run prod
+check_return_code $? "Error while running 'npm run prod'" $ERRCODE_NPM_PROD
+
 log "Copying .env ..."
 cp ../.env.$environ .env
 check_return_code $? "Could not copy ../.env.$environ" $ERRCODE_COPY_ENV
@@ -217,21 +223,17 @@ check_return_code $? "Could not copy ../.env.$environ" $ERRCODE_COPY_ENV
 # link storage so that data is not lost between updates
 log "Linking storage..."
 rm -r storage
-check_return_code $? "Could not delete storage" $ERRCODE_DELETE_STORAGE
+#check_return_code $? "Could not delete storage" $ERRCODE_DELETE_STORAGE
 ln -s $dir_environ/storage storage
 check_return_code $? "Could not link storage" $ERRCODE_LINK_STORAGE
 php artisan storage:link
 check_return_code $? "Could not link public/storage" $ERRCODE_LINK_PUBLIC_STORAGE
 
-log "Laravel caching..."
+log "Cleaning Laravel cache..."
 # cache config
+php artisan optimize:clear
 php artisan config:cache
 check_return_code $? "Could not cache config" $ERRCODE_CACHE_CONFIG
-
-# cache routes
-# not compatible with auth at the moment
-#php artisan route:cache
-#check_return_code $? "Could not cache routes" $ERRCODE_CACHE_ROUTES
 
 # auto migrate or not auto migrate, that is the question
 log "Migrating database..."

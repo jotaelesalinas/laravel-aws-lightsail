@@ -86,7 +86,7 @@ install_software() {
     composer global require hirak/prestissimo
 
     log Installing Nodejs and Yarn...
-    sudo apt install -y nodejs yarn
+    sudo apt install -y nodejs npm yarn
     check_return_code $? "Unable to install Nodejs and Yarn" $ERRCODE_APT_INSTALL
 
     log Cleaning apt cache...

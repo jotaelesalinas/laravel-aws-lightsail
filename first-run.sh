@@ -11,6 +11,7 @@ ERRCODE_CONFIG_READ_FILE=1
 ERRCODE_CONFIG_MISSING_ENVS=2
 ERRCODE_APT_UPDATE=3
 ERRCODE_APT_INSTALL=4
+ERRCODE_COPY_UPDATE_SH=5
 
 ############################################################################
 # functions
@@ -44,7 +45,7 @@ update_repos() {
     # needed to add repositories
     sudo apt install -y software-properties-common
     # repository for latest versions of php
-    sudo add-apt-repository ppa:ondrej/php
+    sudo add-apt-repository -y ppa:ondrej/php
     # update and upgrade
     sudo apt update && sudo apt upgrade -y
     # install en_US locale
@@ -57,7 +58,7 @@ install_software() {
     check_return_code $? "Unable to install Nginx" $ERRCODE_APT_INSTALL
 
     log Installing PHP $PHP_VER...
-    php="phpPHP_VER"
+    php="php$PHP_VER"
     sudo apt install -y $php $php-xml $php-gd $php-opcache $php-mbstring $php-cli $php-mysql $php-zip $php-curl
     check_return_code $? "Unable to install PHP $PHP_VER" $ERRCODE_APT_INSTALL
     php -v
@@ -80,7 +81,7 @@ install_software() {
     sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
     check_return_code $? "Unable to install Composer" $ERRCODE_APT_INSTALL
     rm composer-setup.php
-    sudo chown -R ubuntu:ubuntu .composer
+    sudo chown -R ubuntu:ubuntu ~/.composer
     check_return_code $? "Unable to chown Composer" $ERRCODE_APT_INSTALL
     # speed up composer
     composer global require hirak/prestissimo
@@ -129,13 +130,6 @@ gen_nginx_config() {
 
 log STARTING: $0 $@
 
-update_repos
-
-install_software
-
-cp ./update.sh ..
-chmod +x ../update.sh
-
 log "Loading configuration..."
 
 . $CONFIG_FILE
@@ -150,6 +144,13 @@ if [ -z $domain ]
 then
     log_error "Missing value domain" $ERRCODE_CONFIG_MISSING_ENVS
 fi
+
+update_repos
+
+install_software
+
+cp ./update.sh .. && chmod +x ../update.sh
+check_return_code $? "Could not copy update.sh" $ERRCODE_COPY_UPDATE_SH
 
 cp $CONFIG_FILE ..
 

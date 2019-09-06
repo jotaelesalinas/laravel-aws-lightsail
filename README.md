@@ -178,3 +178,6 @@ You should also familiarize yourself with this file. If something goes wrong it 
 - [ ] Add an option in `config.ini` to enable maintenance mode in one environment. This way, the admins check that everything is ok while the users see the maintenance message.
 - [ ] Add an option to tell how many older instances are kept
 - [ ] Add https://letsencrypt.org/
+    - https://certbot-dns-route53.readthedocs.io/en/latest/
+    - https://devops-fu.org/2018/08/24/how-to-install-the-dns-route53-plugin-for-certbot-on-ubuntu/
+    - crontab `0 2 1 * * sudo certbot certonly --dns-route53 -d YOUR-DOMAIN.com --deploy-hook 'service nginx restart'`

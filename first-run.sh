@@ -46,6 +46,8 @@ update_repos() {
     sudo apt install -y software-properties-common
     # repository for latest versions of php
     sudo add-apt-repository -y ppa:ondrej/php
+    # repository for certbot (letsencrypt)
+    sudo apt-add-repository ppa:certbot/certbot
     # update and upgrade
     sudo apt update && sudo apt upgrade -y
     # install en_US locale
@@ -89,6 +91,14 @@ install_software() {
     log Installing Nodejs and Yarn...
     sudo apt install -y nodejs npm yarn
     check_return_code $? "Unable to install Nodejs and Yarn" $ERRCODE_APT_INSTALL
+
+    log Installing certbot (Letsencrypt automation)
+    sudo apt install -y certbot
+    check_return_code $? "Unable to install certbot" $ERRCODE_APT_INSTALL
+    sudo apt install -y python3-pip
+    check_return_code $? "Unable to install Python PIP" $ERRCODE_APT_INSTALL
+    pip3 install certbot-dns-route53
+    check_return_code $? "Unable to install certbot-dns-route53" $ERRCODE_APT_INSTALL
 
     log Cleaning apt cache...
     sudo apt autoremove -y

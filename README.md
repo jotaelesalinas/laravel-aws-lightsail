@@ -181,3 +181,4 @@ You should also familiarize yourself with this file. If something goes wrong it 
     - https://certbot-dns-route53.readthedocs.io/en/latest/
     - https://devops-fu.org/2018/08/24/how-to-install-the-dns-route53-plugin-for-certbot-on-ubuntu/
     - crontab `0 2 1 * * sudo certbot certonly --dns-route53 -d YOUR-DOMAIN.com --deploy-hook 'service nginx restart'`
+- [ ] Compare new commit hash to current commit, abort if equal

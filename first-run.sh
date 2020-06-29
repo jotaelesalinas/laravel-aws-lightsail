@@ -92,7 +92,7 @@ install_software() {
     sudo apt install -y nodejs npm yarn
     check_return_code $? "Unable to install Nodejs and Yarn" $ERRCODE_APT_INSTALL
 
-    log Installing certbot (Letsencrypt automation)
+    log Installing certbot
     sudo apt install -y certbot
     check_return_code $? "Unable to install certbot" $ERRCODE_APT_INSTALL
     sudo apt install -y python3-pip

@@ -266,7 +266,7 @@ check_return_code $? "Could not change permissions of files" $ERRCODE_CHMOD_FILE
 sudo find $dir_laravel -type d -exec chmod 755 {} \;
 check_return_code $? "Could not change permissions of dirs" $ERRCODE_CHMOD_DIRS
 
-sudo chmod -R 777 $git_dir/bootstrap/cache
+sudo chmod -R ug+rwx $git_dir/bootstrap/cache
 check_return_code $? "Could not change permissions of bootstrap/cache" $ERRCODE_CHMOD_BOOTSTRAP_CACHE
 
 log Relinking /var/www/$environ to repo...
@@ -281,7 +281,7 @@ sudo chown -h www-data:www-data /var/www/$environ
 check_return_code $? "Could not change ownership of /var/www/$environ" $ERRCODE_NGINX_CHOWN
 
 # delete compiled views
-sudo rm storage/framework/views/*
+php artisan views:clear
 
 log Restarting Nginx and PHP opcache...
 

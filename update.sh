@@ -281,7 +281,7 @@ sudo chown -h www-data:www-data /var/www/$environ
 check_return_code $? "Could not change ownership of /var/www/$environ" $ERRCODE_NGINX_CHOWN
 
 # delete compiled views
-php artisan views:clear
+php artisan view:clear
 
 log Restarting Nginx and PHP opcache...
 
